@@ -1,0 +1,221 @@
+
+body{
+  background:#333;
+  padding:170px 0px !important;
+  background:url('../images/rompe-logo.png') center 20px #333 no-repeat;
+  background-size:150px;
+  }
+
+.legend {
+    display:block;
+    width:1000px;
+    height:700px;
+    background-color: #6ea5e5;
+    margin:0px auto;
+    border:5px solid #000;
+    background: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size:24px;
+    padding:0px 20px !important;
+}
+
+a.button{
+  border:2px solid #dbcf4c;
+  color:#dbcf4c;
+  font-family: 'Oswald', sans-serif;
+  font-size:18px;
+  padding:10px 20px;
+  text-align:center;
+  text-transform:uppercase;
+  background:#333 !important;
+  margin:20px auto;
+  display: block;
+  width:100px;
+}
+
+a.button:hover{
+  border:2px solid #f1615e;
+  color:#f1615e;
+  background:#666 !important;
+}
+
+.container {
+  display:block;
+  width:1000px;
+  height:670px;
+  background-color: #6ea5e5;
+  margin:0px auto;
+  border:5px solid #000;
+  background:url('../images/background.png') bottom center #6ea5e5 repeat-x;
+}
+
+.pointsCounter{
+  position: absolute;
+  z-index: 100;
+  margin-top:15px;
+  height: 40px;
+  width:150px;
+  text-align: left;
+  color:#fff;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size:18px;
+  margin-left:10px;
+}
+
+.gameboard{
+  box-sizing:border-box;
+  display:block;
+  width:400px;
+  margin:0px auto;
+  height:100%;
+}
+
+/* ------- zona de Ralp ---------*/
+
+.ralphspace {
+  height:100px;
+  width:100%;
+}
+
+.ralphbox{
+  width:20%;
+  float:left;
+  height:105px;
+}
+
+.ralph{
+  background:url('../images/ralph.png') bottom center no-repeat;
+  background-size:100%;
+}
+
+.ralph-wrecking{
+  background:url('../images/ralph-wrecking.png') bottom center no-repeat;
+  background-size:100%;
+}
+/* ------- zona top (Aquí no pasa nada) ---------*/
+
+
+.top{
+  background:url('../images/top.png') center center no-repeat;
+  width:100%;
+  height:75px;
+  background-size: 103%;
+}
+
+/* ------- zona de Felix ---------*/
+
+
+.fixerspace {
+  background:url('../images/bottom.png') bottom center no-repeat;
+  width:100%;
+  height:128px;
+  background-size: 99%;
+  position: relative;
+}
+
+.nofixing{
+  position: relative;
+  width:70px;
+  z-index:1000;
+  height:80px;
+  background:url('../images/felix.png') bottom center no-repeat;
+  background-size:100%;
+}
+
+.fixing{
+  position: relative;
+  width:70px;
+  z-index:1000;
+  height:80px;
+  background:url('../images/felix_fixing.png') bottom center no-repeat;
+  background-size:100%;
+}
+
+.walking_right{
+  position: relative;
+  width:70px;
+  z-index:1000;
+  height:80px;
+  background:url('../images/felix_walking_right.png') bottom center no-repeat;
+  background-size:100%;
+}
+
+.walking_left{
+  position: relative;
+  width:70px;
+  z-index:1000;
+  height:80px;
+  background:url('../images/felix_walking_left.png') bottom center no-repeat;
+  background-size:100%;
+}
+/* ------- zona de edificio ---------*/
+
+
+.building{
+  height: 367px;
+  padding: 0px 10px !important;
+  display: block;
+  position:relative;
+}
+.window {
+  background-color: #000 !important;
+  width:20%;
+  height:92px;
+  float:left;
+  background-size:cover !important;
+  padding:0px;
+  margin:0px;
+  position:relative;
+}
+
+div[data-state ="2"]{
+  background:url('../images/new.png') center center no-repeat;
+}
+div[data-state ="1"]{
+  background:url('../images/broken.png') center center no-repeat;
+}
+div[data-state ="0"]{
+  background:url('../images/over.png') center center no-repeat;
+}
+
+
+div[data-fixer ="in"]{
+  background:url('../images/over.png') center center no-repeat;
+}
+
+
+.gameover, .youwin{
+  display:none;
+  position:absolute;
+  width:600px;
+  z-index:100000;
+  margin-top:100px;
+  height:auto;
+  left:50%;
+  margin-left:-300px
+}
+
+.gameover a, .youwin a{
+  display: block;
+  width:100%;
+  position: relative;
+}
+
+.gameover img, .youwin img{
+  height:auto;
+  width:100;
+  position:relative;
+  left:0px
+}
+
+
+
+.clearfix {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
