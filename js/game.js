@@ -6,7 +6,7 @@ function Game(options){
   this.building = options.building;
   this.fixer = options.fixer;
 
-  this.timeByMove = 700;
+  this.timeByMove = 1700;
 
 
 
@@ -26,6 +26,7 @@ function Game(options){
   this.updateBuilding = function(){
       this.printBuilding();
       this.printPoints();
+      this.printFixerLifes();
   };
 
 
@@ -33,13 +34,7 @@ function Game(options){
 
     if(this.building.windowsInColumn(this.ralph.column)){
       this.printRalphWrecking();
-      var window = this.building.selectWindow(this.ralph.column);
-
-      if(window.health){
-          window.receiveDamage();
-      }else{
-          this.updateRalph();
-      }
+      this.building.createRock(this.ralph.column);
 
     }
 
@@ -50,10 +45,11 @@ function Game(options){
 
   };
 
+
 /*================ Funciones de puntuación =================*/
 
 this.assignPoints = function(){
-  this.points = (this.building.calculatePoints()-15)*100;
+  this.points = this.building.calculatePoints()*100;
 };
 
 this.printPoints = function(){
@@ -125,6 +121,13 @@ this.printTime = function(){
     $('div[data-fix="in"]').append('<div class="fixer nofixing"></div>');
   };
 
+  this.printFixerLifes = function(){
+    $('.fixers').empty();
+    var life = '<div class="fixer-head"></div>';
+    for(var i = 0; i< this.fixer.life; i++){
+      $('.fixers').append(life);
+    }
+  }
 
   this.assignControlsToKeys = function(){
     $('body').on('keydown', function(e) {
@@ -184,7 +187,27 @@ this.printTime = function(){
       buildingBody += '<div class ="window" data-state="'+ this.building.windows[i].health +'" data-row="'+ this.building.windows[i].row +'" data-column="'+ this.building.windows[i].column +'" data-fix="'+ this.building.windows[i].isFixer +'"></div>';
     }
     $('.building').prepend(buildingBody);
+
     this.printFixer();
+    this.printRockInGrid();
+
+  };
+
+
+  this.printRockInGrid = function(){
+    var self = this;
+    $('.building').prepend(self.building.createRocksGrid());
+
+      for(var i = 0; i < self.building.rocks.length; i ++){
+        $('.rock').each(function(){
+
+          if(self.building.rocks[i].row == $(this).attr("data-row") && (self.building.rocks[i].column*4)+2 == $(this).attr("data-column")){
+              $(this).addClass("rockin");
+              console.log(self.building.rocks.length);
+          }
+
+        });
+      }
 
   };
 
@@ -207,6 +230,10 @@ this.printTime = function(){
       var self = this;
       if(self.timeLeft > 0 && this.points > 0){
         self.printTime();
+        
+        // Aquí voy cambiando la posición de las rocas porque es el tiempo que me venía mejor
+        self.building.updateRocks();
+
       }else{
         self.stop();
         if(this.points <= 0){
@@ -220,11 +247,12 @@ this.printTime = function(){
     this.intervalBuilding = setInterval(function(){
       var self = this;
       self.updateBuilding();
-    }.bind(this),60);
+    }.bind(this),400);
 
     this.intervalRalph = setInterval(function(){
       var self = this;
       self.updateRalph(this.timeByMove);
+
     }.bind(this),this.timeByMove);
   };
 

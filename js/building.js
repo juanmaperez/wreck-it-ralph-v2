@@ -1,6 +1,7 @@
 function Building(){
   this.points = 0;
   this.windows = [];
+  this.rocks = [];
 
   this.createBuilding = function(){
     for(i = 0; i < 4; i++){
@@ -12,7 +13,32 @@ function Building(){
   };
 
 
-  this.selectWindow = function(column, row = Math.floor(Math.random()*4)){
+
+  this.createRocksGrid = function(){
+    var rocksGrid = '<div class="rocksgrid">';
+    for(var i = 0 ; i< 24;i++ ){
+      for(var j = 0; j<20; j++){
+
+          rocksGrid += '<div class="rock" data-row="'+ i +'" data-column="' + j + '" ></div>';
+
+      }
+    }
+    rocksGrid += '</div>';
+
+    return rocksGrid;
+  };
+
+  this.createRock = function(column){
+    var rock = new Rock(column);
+    this.rocks.push(rock);
+  };
+
+
+  this.selectWindow = function(column, row){
+
+    if(row === undefined){
+      row = Math.floor(Math.random()*4);
+    }
     for(i=0; i < this.windows.length; i++){
       if(this.windows[i].column == column && this.windows[i].row == row){
         return this.windows[i];
@@ -40,13 +66,22 @@ function Building(){
 
   };
 
+  this.updateRocks = function(){
+    for(i=0; i< this.rocks.length; i++){
+        this.rocks[i].goDown();
+        if(this.rocks[i].row > 24){
+          this.rocks.splice(i, 1);
+        }
+    }
+  };
+
 }
 
 
 // ================ Window Class ================ //
 
 function Window(row, column){
-  this.health = 2;
+  this.health = Math.floor(Math.random()*2);
   this.row = row;
   this.column = column;
   this.isFixer = "out";
@@ -86,4 +121,14 @@ function Window(row, column){
     }
   };
 
+}
+
+function Rock(column){
+    this.row = 0;
+    this.column = column;
+
+
+    this.goDown = function(){
+      this.row++;
+    };
 }
