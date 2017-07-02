@@ -6,7 +6,7 @@ function Game(options){
   this.building = options.building;
   this.fixer = options.fixer;
 
-  this.timeByMove = 1700;
+  this.timeByMove = 300;
 
 
 
@@ -33,9 +33,10 @@ function Game(options){
   this.updateRalph = function(){
 
     if(this.building.windowsInColumn(this.ralph.column)){
-      this.printRalphWrecking();
-      this.building.createRock(this.ralph.column);
-
+      if(Math.floor(Math.random()*2) == 0){
+        this.printRalphWrecking();
+        this.building.createRock(this.ralph.column);
+      };
     }
 
     var self = this;
@@ -185,16 +186,34 @@ this.printTime = function(){
         this.building.windows[i].removeFixer();
       }
       buildingBody += '<div class ="window" data-state="'+ this.building.windows[i].health +'" data-row="'+ this.building.windows[i].row +'" data-column="'+ this.building.windows[i].column +'" data-fix="'+ this.building.windows[i].isFixer +'"></div>';
-    }
+    };
     $('.building').prepend(buildingBody);
 
     this.printFixer();
-    this.printRockInGrid();
+  
+  };
 
+  this.checkFixerRock = function(){
+    var self = this;
+    if(! this.fixer.blocked){
+      this.building.rocks.forEach(function(element, index){
+          if(element.column == self.fixer.column){
+              if( element.row == (self.fixer.row*6)+1 ||  
+              element.row == (self.fixer.row*6)+2 ||
+              element.row == (self.fixer.row*5)+3 ||    
+              element.row == (self.fixer.row*5)+4){
+                console.log("tocado");
+                self.fixer.receiveDamage();
+              }   
+            }
+      })
+    }
   };
 
 
-  this.printRockInGrid = function(){
+  this.printRockInGrid = function(fixerColumn, fixerRow){
+    var fixerColumn = fixerColumn;
+    var fixerRow = fixerRow;
     var self = this;
     $('.building').prepend(self.building.createRocksGrid());
 
@@ -203,9 +222,7 @@ this.printTime = function(){
 
           if(self.building.rocks[i].row == $(this).attr("data-row") && (self.building.rocks[i].column*4)+2 == $(this).attr("data-column")){
               $(this).addClass("rockin");
-              console.log(self.building.rocks.length);
-          }
-
+          };       
         });
       }
 
@@ -219,24 +236,28 @@ this.printTime = function(){
       clearInterval(this.intervalTime);
       clearInterval(this.intervalBuilding);
       clearInterval(this.intervalRalph);
+      clearInterval(this.intervalRocks);
+
 
       this.intervalTime = undefined;
       this.intervalBuilding = undefined;
       this.intervalRalph = undefined;
+      this.intervalRocks = undefined;
+
   };
+
+
+
 
   this.startGame = function(){
     this.intervalTime = setInterval(function(){
       var self = this;
-      if(self.timeLeft > 0 && this.points > 0){
+      if(self.timeLeft > 0 && this.fixer.life > 0 && this.points < 4000){
         self.printTime();
-        
-        // Aquí voy cambiando la posición de las rocas porque es el tiempo que me venía mejor
-        self.building.updateRocks();
 
       }else{
         self.stop();
-        if(this.points <= 0){
+        if(this.points < 4000 ){
           $('.gameover').css("display", "block");
         }else{
           $('.youwin').css("display", "block");
@@ -244,10 +265,16 @@ this.printTime = function(){
       }
     }.bind(this),1000);
 
+  this.intervalRocks = setInterval(function(){         
+     this.building.updateRocks();
+  }.bind(this),80)
+
     this.intervalBuilding = setInterval(function(){
       var self = this;
       self.updateBuilding();
-    }.bind(this),400);
+      self.printRockInGrid();
+      self.checkFixerRock()
+    }.bind(this),60);
 
     this.intervalRalph = setInterval(function(){
       var self = this;

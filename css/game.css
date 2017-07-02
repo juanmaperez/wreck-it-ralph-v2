@@ -248,7 +248,6 @@ div[data-fixer ="in"]{
   width:100%;
   text-align:left;
   height:30px;
-  margin:10px 0px;
 }
 
 .fixer-head{
@@ -261,5 +260,6 @@ div[data-fixer ="in"]{
   margin:0px 5px;
 }
 
-
-
+.lessopacity{
+  opacity: 0.5 !important;
+}

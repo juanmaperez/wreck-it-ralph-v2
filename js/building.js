@@ -69,7 +69,7 @@ function Building(){
   this.updateRocks = function(){
     for(i=0; i< this.rocks.length; i++){
         this.rocks[i].goDown();
-        if(this.rocks[i].row > 24){
+        if(this.rocks[i].row > 23){
           this.rocks.splice(i, 1);
         }
     }
@@ -94,8 +94,9 @@ function Window(row, column){
   };
 
   this.receiveHealth = function(){
-    if(this.health == 1){
+    if(this.health < 2){
       this.health++;
+
     }
   };
 
