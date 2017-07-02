@@ -6,7 +6,7 @@ function Game(options){
   this.building = options.building;
   this.fixer = options.fixer;
 
-  this.timeByMove = 300;
+  this.timeByMove = 240;
 
 
 
